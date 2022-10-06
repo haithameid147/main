@@ -37,24 +37,24 @@ public class cityService {
      public void initCity1() {
 
          City city = new City();
-         city.setNameAr("نالقاهره");
-         city.setNameEn("cairo");
+         city.setNameAr("نالقاهاره");
+         city.setNameEn("ccairo");
          cityRepo.save(city);
          
      }
      public void initCity2() {
 
          City city = new City();
-         city.setNameAr("الاسكندرية");
-         city.setNameEn("alex");
+         city.setNameAr("االاسكندرية");
+         city.setNameEn("aalex");
          cityRepo.save(city);
          
      }
      public void initCity3() {
 
          City city = new City();
-         city.setNameAr("طنطا");
-         city.setNameEn("tanta");
+         city.setNameAr("طنطاا");
+         city.setNameEn("taanta");
          cityRepo.save(city);
          
      }
