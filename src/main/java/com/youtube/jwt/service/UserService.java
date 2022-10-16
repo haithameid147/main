@@ -66,20 +66,31 @@ public class UserService {
 
         return userDao.save(user);
     }
-    
+
     public void ubdate(User newUser) {
     	newUser.setUserPassword(getEncodedPassword(newUser.getUserPassword()));
 
     	userDao.save(newUser); 
     }
+    public void updateUserField(String username,String firstname,String lastname,String mobile) {
+    	userDao.updateUserField(username, firstname, lastname,mobile);
+    }
+    public void updatePassword(String username,String password) {
+    	String passwordEncoded = getEncodedPassword(password);
+    	userDao.updatePassword(username, passwordEncoded);
+    }
     
-         public Optional<User> findById(String name) {
-			return userDao.findById(name);
+         public User findById(String name) {
+			return userDao.findByUserName(name);
 		}
     public String getEncodedPassword(String password) {
         return passwordEncoder.encode(password);
     }
     public String getDecodedPassword(String password) {
         return passwordEncoder.encode(password);
+    }
+    public boolean userNameCheck(String name) {
+    return	userDao.existsByUserName(name);
+    
     }
 }

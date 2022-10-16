@@ -89,9 +89,12 @@ public class foundationService implements customRepo {
         foundationRepo.save(newFoundation);
 
     }
-
+     
     public void ubdateFoundation(Foundation newFoundation) {
         foundationRepo.save(newFoundation);
+    }
+       public void ubdateFoundationActive(boolean active, int id) {
+        foundationRepo.setActiveForFoundation(active,id);
     }
 
     public void deleteFoundation(int id) {
@@ -131,6 +134,10 @@ public class foundationService implements customRepo {
 //        System.out.println("the query is : "+query.toString());
 //        System.out.println("query reslt list" + query.getResultList());
         return query.getResultList();
+    }
+    public long userCount(String name) {
+    	
+    	return foundationRepo.countByUserUserName(name);
     }
 
 }

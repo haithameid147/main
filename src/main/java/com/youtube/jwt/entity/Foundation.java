@@ -35,6 +35,7 @@ public class Foundation implements java.io.Serializable {
     private String nameEn;
     private String phone;
     private String photo;
+    private boolean active ;
     private String description;
     private String advantages;
     @Column(name = "imageDB", length = 10000)
@@ -85,6 +86,14 @@ public class Foundation implements java.io.Serializable {
         this.id = id;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
     @Column(name = "name_ar", nullable = false, length = 250)
     public String getNameAr() {
         return this.nameAr;
@@ -121,7 +130,7 @@ public class Foundation implements java.io.Serializable {
         this.photo = photo;
     }
 
-    @Column(name = "description", nullable = false , length = 1000)
+    @Column(name = "description", nullable = false , length = 750)
     public String getDescription() {
         return description;
     }
@@ -130,7 +139,7 @@ public class Foundation implements java.io.Serializable {
         this.description = description;
     }
 
-    @Column(name = "advantages", nullable = false , length = 1000)
+    @Column(name = "advantages", nullable = false , length = 750)
     public String getAdvantages() {
         return advantages;
     }
@@ -139,7 +148,7 @@ public class Foundation implements java.io.Serializable {
         this.advantages = advantages;
     }
 
-    @Column(name = "communication", nullable = false , length = 1000)
+    @Column(name = "communication", nullable = false , length = 250)
     public String getCommunication() {
         return communication;
     }

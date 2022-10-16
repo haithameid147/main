@@ -1,13 +1,19 @@
 package com.youtube.jwt.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,6 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.youtube.jwt.entity.City;
 import com.youtube.jwt.entity.Foundation;
 import com.youtube.jwt.entity.Service;
+import com.youtube.jwt.service.UserService;
 import com.youtube.jwt.service.serviceOfService;
 //@CrossOrigin(origins = "http://10.101.0.80:4200")
 @CrossOrigin
@@ -35,7 +42,8 @@ public class foundationController {
     com.youtube.jwt.service.foundationService foindationService;
     @Autowired
     serviceOfService service;
-
+    @Autowired
+    ServletContext context;
     @Autowired
     com.youtube.jwt.service.cityService cityService;
 
@@ -99,7 +107,12 @@ public class foundationController {
 
         return foindationService.findserviceIdByFoundationById(idd);
     }
-
+    @GetMapping("/countOfFoundationByUser/{name}")
+    public long countOfFoundationByUser(@PathVariable String name) {
+    	return foindationService.userCount(name);
+    }
+    
+    
     @PreAuthorize("hasRole('User')")
     @PostMapping("/addfoundation")
     public void addfoundation(@RequestBody Foundation newArea) {
@@ -125,27 +138,71 @@ public class foundationController {
         foindationService.addFoundation(founation);
         // return "area saved";.
     }
+    @PostMapping("/addfoundationFileServer")
+    public String addfoundationFileServer(@RequestParam("file") MultipartFile file,
+            @RequestParam("foundatiion") String foundatiion) throws IOException {
+    	
+    	
+        try {
+            Foundation founatioon = new ObjectMapper().readValue(foundatiion, Foundation.class);
+        } catch (IOException e) {
+            System.out.println("haitham");
 
-    @PutMapping("/addFoundation2/{id}")
+        }
+         
+        Foundation founation = new ObjectMapper().readValue(foundatiion, Foundation.class);
+        //  System.out.println("nnn "+founation.getUser().getUserName());
+          String username = founation.getUser().getUserName() ;
+          long numberOfserviceCount =foindationService.userCount(username);
+          
+            System.out.println("nnn "+numberOfserviceCount);
+            if(numberOfserviceCount <2) {
+            	boolean isExist = new File(context.getRealPath("/founadtionPhoto/")).exists();
+            if(!isExist) {
+            	System.out.println("haithamm");
+            	new File(context.getRealPath("/founadtionPhoto/")).mkdir();
+            }
+            String filename = file.getOriginalFilename();
+            String modifiedFileName =FilenameUtils.getBaseName(filename)+"_"+System.currentTimeMillis()+"."+FilenameUtils.getExtension(filename);
+            File serverfile = new File(context.getRealPath("founadtionPhoto"+File.separator+modifiedFileName));
+        	System.out.println("haithamm"+serverfile);
+//        	System.out.println(context.getRealPath());
+//        	System.out.println();
+
+
+            try {
+            	FileUtils.writeByteArrayToFile(serverfile, file.getBytes());
+            }
+            catch (Exception e) {e.printStackTrace();}
+            founation.setPhoto(modifiedFileName);
+            foindationService.addFoundation(founation);
+            return "new added";
+
+            }
+            else
+            { return "لا يمكنك اضافة خدمة جديدة";}
+//        founation.setLogo(file.getBytes());
+//        founation.setFilenameDB(file.getOriginalFilename());
+       
+        
+    }
+
+    @PutMapping("/addFoundationWithoutFile/{id}")
     public String ubdatefoundation(@PathVariable int id, @RequestParam("foundatiion") String foundatiion)
             throws JsonMappingException, JsonProcessingException {
-        System.out.println("foundation 2");
         Foundation founation = new ObjectMapper().readValue(foundatiion, Foundation.class);
         System.out.println(founation.getService().getId());
-        // System.out.println(new Gson().toJson(founation));
-        // System.out.println("newFoundation");
         int idd = founation.getService().getId();
         Service servicee = service.findById(idd);
         founation.setService(servicee);
-
         int cityId = founation.getCity().getId();
         City city = cityService.findById(cityId);
         founation.setCity(city);
         foindationService.addFoundation(founation);
-        return "area ubdate";
+        return "addFoundationWithoutFile";
     }
 
-    @PutMapping("/addFoundation/{id}")
+    @PutMapping("/addFoundationWithFile/{id}")
     public String ubdatefoundation1(@RequestParam("file") MultipartFile file, @PathVariable int id,
             @RequestParam("foundatiion") String foundatiion) throws IOException {
         System.out.println("foundation 11");
@@ -169,14 +226,26 @@ public class foundationController {
 
         foindationService.addFoundation(founation);
 
-        return "area ubdate";
+        return "addFoundationWithFile ";
     }
+    
+        @PutMapping("/ubdatefoundationActive/{active},{id}/fondation")
+    public String ubdatefoundationActive( @PathVariable boolean active,
+           @PathVariable int id) throws IOException {
+        System.out.println("foundation 11 "+active);
 
+        foindationService.ubdateFoundationActive(active,id);
+
+        return "ubdatefoundationActive";
+    }
+    
+    
     @DeleteMapping("/deleteFoundation/{id}")
     public String deleteArea(@PathVariable int id) {
         foindationService.deleteFoundation(id);
         return "city deleted";
 
     }
+    
 
 }

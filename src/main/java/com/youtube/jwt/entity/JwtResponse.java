@@ -7,6 +7,8 @@ public class JwtResponse {
 
     public JwtResponse(User user, String jwtToken) {
         this.user = user;
+        String Password =this.user.getUserPassword();
+        System.out.println("jkj");
         this.jwtToken = jwtToken;
     }
 
