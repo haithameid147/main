@@ -2,6 +2,7 @@ package com.youtube.jwt.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -51,13 +52,13 @@ public class foundationController {
     public List<Foundation> getAllFoundation() {
         return foindationService.all();
     }
-
+      
     @GetMapping("/employees/{servicesId},{city}/foundation")
     public List<Foundation> getAllfoundationByserviceID(@PathVariable int servicesId, @PathVariable String city) {
         System.out.println(city);
         return foindationService.getFoundationOfServiceId(servicesId);
     }
-
+        
     @GetMapping("/getAllfoundationBySerch/{servicesId},{cityId},{name}/foundation")
     public List<Foundation> getAllfoundationBySerch(
             @PathVariable int servicesId, @PathVariable int cityId ,@PathVariable String name) {
@@ -68,7 +69,7 @@ public class foundationController {
                 //return foindationService.getAllfoundationBySearch(servicesId, cityId);
 
     }
-
+      
     @GetMapping("/city/{cityId}/foundation")
     public List<Foundation> getAllfoundationByCityID(@PathVariable int cityId) {
         return foindationService.getFoundationOfCityId(cityId);
@@ -115,9 +116,8 @@ public class foundationController {
     
     @PreAuthorize("hasRole('User')")
     @PostMapping("/addfoundation")
-    public void addfoundation(@RequestBody Foundation newArea) {
-        foindationService.addFoundation(newArea);
-        // return "area saved";
+    public void addfoundation(@RequestBody Foundation newf) {
+        foindationService.addFoundation(newf);
     }
 
     @PreAuthorize("hasRole('User')")
@@ -128,15 +128,11 @@ public class foundationController {
             Foundation founatioon = new ObjectMapper().readValue(foundatiion, Foundation.class);
         } catch (IOException e) {
             System.out.println("haitham");
-
         }
-
         Foundation founation = new ObjectMapper().readValue(foundatiion, Foundation.class);
-
         founation.setLogo(file.getBytes());
         founation.setFilenameDB(file.getOriginalFilename());
         foindationService.addFoundation(founation);
-        // return "area saved";.
     }
     @PostMapping("/addfoundationFileServer")
     public String addfoundationFileServer(@RequestParam("file") MultipartFile file,
@@ -186,6 +182,48 @@ public class foundationController {
        
         
     }
+    
+    @PostMapping("/addfoundationFireBaseServerfondation")
+    public String addfoundationFireBaseServer(@RequestParam("file") MultipartFile file,
+            @RequestParam("foundatiion") String foundatiion) throws IOException {
+        String filename = file.getOriginalFilename();
+
+    //	System.out.println("haitham   "+ image);
+
+        try {
+            Foundation founatioon = new ObjectMapper().readValue(foundatiion, Foundation.class);
+        } catch (IOException e) {
+            System.out.println("haitham");
+
+        }
+         
+        Foundation founation = new ObjectMapper().readValue(foundatiion, Foundation.class);
+        //  System.out.println("nnn "+founation.getUser().getUserName());
+          String username = founation.getUser().getUserName() ;
+          long numberOfserviceCount =foindationService.userCount(username);
+          
+            if(numberOfserviceCount <2) {
+           
+          
+//        	System.out.println(context.getRealPath());
+//        	System.out.println();
+
+
+         
+           founation.setPhotoName(filename);
+            foindationService.addFoundation(founation);
+            return "new added";
+
+            }
+            else
+            { return "لا يمكنك اضافة خدمة جديدة";}
+//        founation.setLogo(file.getBytes());
+//        founation.setFilenameDB(file.getOriginalFilename());
+       
+        
+    }
+    
+    
 
     @PutMapping("/addFoundationWithoutFile/{id}")
     public String ubdatefoundation(@PathVariable int id, @RequestParam("foundatiion") String foundatiion)
@@ -212,8 +250,9 @@ public class foundationController {
         // System.out.println(new Gson().toJson(founation));
 
         if (file != null && !file.isEmpty()) {
-            founation.setLogo(file.getBytes());
+            //founation.setLogo(file.getBytes());
             founation.setFilenameDB(file.getOriginalFilename());
+            founation.setPhotoName(file.getOriginalFilename()) ;
 
         }
         int idd = founation.getService().getId();

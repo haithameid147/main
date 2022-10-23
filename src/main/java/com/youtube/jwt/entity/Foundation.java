@@ -35,6 +35,7 @@ public class Foundation implements java.io.Serializable {
     private String nameEn;
     private String phone;
     private String photo;
+    private String photoName;
     private boolean active ;
     private String description;
     private String advantages;
@@ -216,6 +217,14 @@ public class Foundation implements java.io.Serializable {
 
 	public void setPicByte(byte[] picByte) {
 		this.picByte = picByte;
+	}
+
+	public String getPhotoName() {
+		return photoName;
+	}
+
+	public void setPhotoName(String photoName) {
+		this.photoName = photoName;
 	}
 
     
