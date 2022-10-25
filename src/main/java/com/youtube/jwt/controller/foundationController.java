@@ -108,6 +108,7 @@ public class foundationController {
 
         return foindationService.findserviceIdByFoundationById(idd);
     }
+    @PreAuthorize("hasRole('User')")
     @GetMapping("/countOfFoundationByUser/{name}")
     public long countOfFoundationByUser(@PathVariable String name) {
     	return foindationService.userCount(name);

@@ -48,6 +48,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/addUser",
                         "/area",
                         "/upload",
+                        "/countOfFoundationByUser/{name}",
                         "/employees/{idd}",
                         "/employees/{cityId}/allarea",
                         "/city/{cityId}/foundation",

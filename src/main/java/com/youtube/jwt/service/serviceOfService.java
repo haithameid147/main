@@ -32,6 +32,12 @@ public class serviceOfService {
         city.setName("نظافة");       
         serviceRepo.save(city);  
     }
+    public void initService0() {
+        com.youtube.jwt.entity.Service city = new com.youtube.jwt.entity.Service();
+        city.setId(0);
+        city.setName("كل الخدمات");       
+        serviceRepo.save(city);  
+    }
     public void initService2() {
         com.youtube.jwt.entity.Service city = new com.youtube.jwt.entity.Service();
         city.setName("سباك");       

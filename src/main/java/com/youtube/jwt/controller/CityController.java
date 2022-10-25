@@ -41,13 +41,15 @@ public class CityController {
 		return cityService.all(); 
 	}
 	
-    @PostConstruct
-    public void initcity() {
-    	cityService.initCity1();
-    	cityService.initCity2();
-    	cityService.initCity3();
-
-    }
+//    @PostConstruct
+//    public void initcity() {
+//    	cityService.initCity1();
+//    	cityService.initCity0();
+//
+//    	cityService.initCity2();
+//    	cityService.initCity3();
+//
+//    }
   
 	
 	@GetMapping("/employeees")

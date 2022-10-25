@@ -58,5 +58,13 @@ public class cityService {
          cityRepo.save(city);
          
      }
+
+	public void initCity0() {
+        City city = new City();
+             city.setId(0);
+	         city.setNameAr("كل المدن");
+	         city.setNameEn("all cites");
+	         cityRepo.save(city);		
+	}
      
 }
