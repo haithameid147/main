@@ -183,9 +183,20 @@ public class foundationController {
        
         
     }
-    
     @PostMapping("/addfoundationFireBaseServerfondation")
-    public String addfoundationFireBaseServer(@RequestParam("file") MultipartFile file,
+    public String addfoundationFireBaseServer( @RequestBody Foundation newfn) throws IOException {
+          String username = newfn.getUser().getUserName() ;
+          long numberOfserviceCount =foindationService.userCount(username);     
+            if(numberOfserviceCount <2) {
+            foindationService.addFoundation(newfn);
+            return "new added";
+            }
+            else
+            { return "لا يمكنك اضافة خدمة جديدة";}
+    }
+    
+    @PostMapping("/addfoundationFireBaseServerfondationWithfile")
+    public String addfoundationFireBaseServerfondationWithfile(@RequestParam("file") MultipartFile file,
             @RequestParam("foundatiion") String foundatiion) throws IOException {
         String filename = file.getOriginalFilename();
 
