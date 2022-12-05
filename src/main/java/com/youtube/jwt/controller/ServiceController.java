@@ -32,13 +32,13 @@ public class ServiceController {
 	com.youtube.jwt.service.serviceOfService service ;
 	
     
-//    @PostConstruct
-//    public void initRoleAndUser1() {
-//    	service.initService0();
-//    	service.initService1();
-//    	service.initService3();
-//    	service.initService2();       
-//    }
+    @PostConstruct
+    public void initRoleAndUser1() {
+    	service.initService0();
+    	service.initService1();
+    	service.initService3();
+    	service.initService2();       
+    }
   
     
    
