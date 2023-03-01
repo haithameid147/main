@@ -5,6 +5,8 @@ import com.youtube.jwt.controller.customRepo;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.youtube.jwt.entity.Foundation;
@@ -94,9 +96,11 @@ public class foundationService implements customRepo {
         foundationRepo.save(newFoundation);
     }
        public void ubdateFoundationActive(boolean active, int id) {
-        foundationRepo.setActiveForFoundation(active,id);
+        foundationRepo.setActiveForFoundation1(active,id);
     }
-
+       public void ubdateFoundationCallCount(int numberOfCall,int id) {
+           foundationRepo.setCountCallForFoundation(numberOfCall,id);
+       }
     public void deleteFoundation(int id) {
         foundationRepo.deleteById(id);
     }
@@ -108,8 +112,10 @@ public class foundationService implements customRepo {
 //    }
 
     @Override
-    public List<Foundation> findAllByServiceIdAndCityId(int servicesId, int cityId,String name) {
-
+    public List<Foundation> findAllByServiceIdAndCityId(int servicesId, int cityId,String name,int pageNumber) {
+        Pageable page = PageRequest.of(0,2);
+//        int pageNumber =pageRequest.getPageNumber();
+//        int pageSize = pageRequest.getCount();
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 
         // CriteriaQuery cq = cb.createQuery();
@@ -129,11 +135,16 @@ public class foundationService implements customRepo {
         
         }
         cq.where(predicates.toArray(new Predicate[]{}));
-      //  System.out.println("the predicates is : "+predicates.toArray(new Predicate[]{}));
+    //  System.out.println("the predicates is : "+predicates.toArray(new Predicate[]{}));
         TypedQuery<Foundation> query = entityManager.createQuery(cq);
-//        System.out.println("the query is : "+query.toString());
-//        System.out.println("query reslt list" + query.getResultList());
+//      System.out.println("the query is : "+query.toString());
+//      System.out.println("query reslt list" + query.getResultList());
+    //  int pageNumber = 2;
+        int pageSize = 6;
+        query.setFirstResult((pageNumber-1) * pageSize); 
+        query.setMaxResults(pageSize);
         return query.getResultList();
+        
     }
     public long userCount(String name) {
     	

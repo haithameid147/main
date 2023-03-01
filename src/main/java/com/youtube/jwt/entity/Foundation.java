@@ -44,6 +44,7 @@ public class Foundation implements java.io.Serializable {
     @Column(name = "filenameDB")
     private String filenameDB ;
     private String communication;
+    private Integer  countOfCall ;
     //  private Service service ;
 
     private User user;
@@ -157,11 +158,16 @@ public class Foundation implements java.io.Serializable {
     public void setCommunication(String communication) {
         this.communication = communication;
     }
+    @Column(name = "countOfCall",nullable = true )
+    public Integer  getCountOfCall() {
+		return countOfCall;
+	}
 
-    
-    
-    
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	public void setCountOfCall(int countOfCall) {
+		this.countOfCall = countOfCall;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "service_id", nullable = false)
 
     public Service getService() {

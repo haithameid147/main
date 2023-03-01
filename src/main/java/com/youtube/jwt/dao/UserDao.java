@@ -24,4 +24,10 @@ public interface UserDao extends CrudRepository<User, String> {
 	,nativeQuery = true)
 	public void updatePassword(String username,String password);
 	public boolean existsByUserName(String name) ;
+	
+	@Transactional
+    @Modifying
+    @Query(value = "update users  set code = ? where user_name = ?", 
+      nativeQuery = true)
+    void setCodeForUser(int code, String user);
 }

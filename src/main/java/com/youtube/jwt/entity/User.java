@@ -21,6 +21,7 @@ public class User implements java.io.Serializable {
 	private String userLastName;
 	private String mobile ;
 	private String userPassword;
+	private Integer code ;
 	@CreationTimestamp  //note that if you want to update time use @UpdateTimeStamp
 	private Date userDateCreation;
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -80,6 +81,14 @@ public class User implements java.io.Serializable {
 
 	public void setUserDateCreation(Date userDateCreation) {
 		this.userDateCreation = userDateCreation;
+	}
+	 @Column(name = "code",nullable = true )
+	public long getCode() {
+		return code;
+	}
+
+	public void setCode(Integer code) {
+		this.code = code;
 	}
 
 	public Set<Role> getRole() {

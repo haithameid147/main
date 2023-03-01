@@ -60,12 +60,12 @@ public class foundationController {
     }
         
     @GetMapping("/getAllfoundationBySerch/{servicesId},{cityId},{name}/foundation")
-    public List<Foundation> getAllfoundationBySerch(
+    public List<Foundation> getAllfoundationBySerch(@RequestParam(defaultValue = "2") int pageNumber,
             @PathVariable int servicesId, @PathVariable int cityId ,@PathVariable String name) {
     	
-    	     System.out.println("ser "+servicesId);
-    	     System.out.println("city "+cityId);
-        return foindationService.findAllByServiceIdAndCityId(servicesId, cityId,name);
+    	   //  System.out.println("ser "+servicesId);
+    	   //  System.out.println("city "+pageNumber);
+        return foindationService.findAllByServiceIdAndCityId(servicesId, cityId,name,pageNumber);
                 //return foindationService.getAllfoundationBySearch(servicesId, cityId);
 
     }
@@ -191,6 +191,10 @@ public class foundationController {
             foindationService.addFoundation(newfn);
             return "new added";
             }
+            else if (username.equals("admin")) {
+                foindationService.addFoundation(newfn);
+                return "new added";
+                }
             else
             { return "لا يمكنك اضافة خدمة جديدة";}
     }
@@ -211,6 +215,7 @@ public class foundationController {
          
         Foundation founation = new ObjectMapper().readValue(foundatiion, Foundation.class);
         //  System.out.println("nnn "+founation.getUser().getUserName());
+        
           String username = founation.getUser().getUserName() ;
           long numberOfserviceCount =foindationService.userCount(username);
           
@@ -223,6 +228,7 @@ public class foundationController {
 
          
            founation.setPhotoName(filename);
+           founation.setCountOfCall(0);
             foindationService.addFoundation(founation);
             return "new added";
 
@@ -280,7 +286,7 @@ public class foundationController {
         return "addFoundationWithFile ";
     }
     
-        @PutMapping("/ubdatefoundationActive/{active},{id}/fondation")
+    @PutMapping("/ubdatefoundationActive/{active},{id}/fondation")
     public String ubdatefoundationActive( @PathVariable boolean active,
            @PathVariable int id) throws IOException {
         System.out.println("foundation 11 "+active);
@@ -289,7 +295,17 @@ public class foundationController {
 
         return "ubdatefoundationActive";
     }
-    
+    @PutMapping("/foundationCallCount/{id}/fondation")
+    public void ubdatefoundationCallCount(
+           @PathVariable int id) throws IOException {
+    	 Foundation f =  foindationService.findFoundationById(id);
+    	 int numberOfCall =f.getCountOfCall();
+    	 numberOfCall ++;
+         System.out.println("foundation 11 "+numberOfCall);
+
+           foindationService.ubdateFoundationCallCount(numberOfCall,id);
+        //    return "ubdatefoundationActive";
+    }
     
     @DeleteMapping("/deleteFoundation/{id}")
     public String deleteArea(@PathVariable int id) {

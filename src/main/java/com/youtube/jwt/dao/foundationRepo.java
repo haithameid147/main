@@ -26,10 +26,12 @@ import org.springframework.stereotype.Repository;
 
 import com.youtube.jwt.entity.Foundation;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 
 @Repository
+@Transactional
 public interface foundationRepo extends JpaRepository<Foundation, Integer>{
 
 
@@ -53,9 +55,20 @@ public interface foundationRepo extends JpaRepository<Foundation, Integer>{
      public List<Foundation> findByCityId(int cityId);
      public List<Foundation> findBynameArContaining(String name);
      @Modifying
-     @Transactional
+    // @Transactional
      @org.springframework.data.jpa.repository.Query
         ("update Foundation f set f.active = ?1 where f.id = ?2")
-     void setActiveForFoundation(boolean active, int id);
+     void setActiveForFoundation1(boolean active, int id);
 
+//     @Modifying
+//     @Transactional
+//     @org.springframework.data.jpa.repository.Query
+//        ("update Foundation f set f.count_of_call = ?2 where f.id = ?1")
+//     void setCountCallForFoundation(int id,Integer numberOfCall);
+//     
+     
+     @Modifying
+     @Query(value = "update Foundation  set count_of_call = ? where id = ?", 
+       nativeQuery = true)
+     void setCountCallForFoundation(Integer count_of_call, int id);
 }

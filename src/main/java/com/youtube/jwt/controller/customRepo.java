@@ -13,7 +13,7 @@ import java.util.List;
  * @author eid
  */
 public interface customRepo {
-         public  List<Foundation>  findAllByServiceIdAndCityId(int servicesId,int cityId,String name);
+         public  List<Foundation>  findAllByServiceIdAndCityId(int servicesId,int cityId,String name,int pageNumber);
 
     
 }

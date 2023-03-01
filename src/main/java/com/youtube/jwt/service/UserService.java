@@ -93,4 +93,8 @@ public class UserService {
     return	userDao.existsByUserName(name);
     
     }
+    public void updateUserCode(int code, String user) {
+    	userDao.setCodeForUser(code, user);
+     //   foundationRepo.setActiveForFoundation1(active,id);
+    }
 }
