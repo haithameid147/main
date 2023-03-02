@@ -42,7 +42,8 @@ public class UserController {
 	public boolean registerNewUser(@RequestBody User user) {
 		boolean isExist = userService.userNameCheck(user.getUserName());
 		if (!isExist) {
-			System.out.println(isExist);
+			//System.out.println(isExist);
+			//user.setCode(null)
 			userService.registerNewUser(user);
 			return true;
 		} else {
@@ -69,7 +70,7 @@ public class UserController {
 			//userService.ubdate(userData) ;
 			userService.updateUserCode(randomWithNextInt, username);
 			String text = " يرجي أستخدام هذا الرمز لاعادة كلمة المرور  "+randomWithNextInt ;
-		//	sendEmail.sendSimpleMessage(user, "ااعادة تعيين كلمة المرور", text);
+			sendEmail.sendSimpleMessage(user, "ااعادة تعيين كلمة المرور", text);
 			return true;
 		}
 	}
