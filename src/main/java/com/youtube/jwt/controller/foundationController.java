@@ -62,11 +62,7 @@ public class foundationController {
     @GetMapping("/getAllfoundationBySerch/{servicesId},{cityId},{name}/foundation")
     public List<Foundation> getAllfoundationBySerch(@RequestParam(defaultValue = "2") int pageNumber,
             @PathVariable int servicesId, @PathVariable int cityId ,@PathVariable String name) {
-    	
-    	   //  System.out.println("ser "+servicesId);
-    	   //  System.out.println("city "+pageNumber);
         return foindationService.findAllByServiceIdAndCityId(servicesId, cityId,name,pageNumber);
-                //return foindationService.getAllfoundationBySearch(servicesId, cityId);
 
     }
       

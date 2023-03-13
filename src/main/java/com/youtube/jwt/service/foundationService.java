@@ -140,7 +140,7 @@ public class foundationService implements customRepo {
 //      System.out.println("the query is : "+query.toString());
 //      System.out.println("query reslt list" + query.getResultList());
     //  int pageNumber = 2;
-        int pageSize = 6;
+        int pageSize = 25;
         query.setFirstResult((pageNumber-1) * pageSize); 
         query.setMaxResults(pageSize);
         return query.getResultList();

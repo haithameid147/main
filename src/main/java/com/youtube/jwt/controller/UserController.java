@@ -30,7 +30,8 @@ public class UserController {
 	private UserService userService;
     @Autowired
     private emailSendMessege sendEmail ;
-    
+    int min = 1000;  
+	int max = 9999;
    
 	@PostConstruct
 	public void initRoleAndUser() {
@@ -43,7 +44,10 @@ public class UserController {
 		boolean isExist = userService.userNameCheck(user.getUserName());
 		if (!isExist) {
 			//System.out.println(isExist);
-			//user.setCode(null)
+//			int min = 1000;  
+//			int max = 9999;
+			int randomWithNextInt = (int)(Math.random()*(max-min+1)+min);
+			user.setCode(randomWithNextInt) ;
 			userService.registerNewUser(user);
 			return true;
 		} else {
@@ -59,8 +63,8 @@ public class UserController {
 		if (!isExist) {
 			return false;
 		} else {
-			int min = 1000;  
-			int max = 9999;
+//			int min = 1000;  
+//			int max = 9999;
 			int randomWithNextInt = (int)(Math.random()*(max-min+1)+min); 
 			//Random random = new Random();
 		//	int randomWithNextInt = random.nextInt();
